@@ -1,0 +1,139 @@
+.span_major{
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--color-text);
+}
+.span_minor{
+    font-size: 15px;
+    color: var(--color-muted);
+}
+.ui-section {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ui-section form {
+    max-width: 100%;
+}
+
+
+.ui-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: #fafafa;
+}
+
+
+.ui-section h2 {
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+}
+body {
+    margin: 0;
+    padding: 40px 20px;
+
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #f5f6fa;
+    color: var(--color-text);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+thead th {
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 15px;
+    color: var(--color-muted);
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td,
+tbody th {
+    padding: 14px 16px;
+    font-size: 15px;
+    text-align: center;
+}
+
+tbody th {
+    font-weight: 500;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+tbody td:nth-last-child(-n+2) {
+    text-align: right;
+}
+
+
+ul {
+  list-style: none; 
+  gap: 20px;
+  padding: 0;
+  margin: 0; 
+}
+li {
+  padding: 1rem; 
+}
+
+.list-row{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+.list-row select{
+    flex:1;
+    width: auto;
+}
+.list-row input{
+    flex:1;
+    width: auto;
+    max-width: 80px;
+}
+
+.equpiment-container{
+    min-width: 320px;
+    padding: 16px;
+
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.equpiment-container .span_major{
+    font-size: 20px;
+    align-self: center;
+}

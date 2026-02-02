@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EqipRent - Admin</title>
+    <link rel="stylesheet" href="./src/styles/general.css">
+    <link rel="stylesheet" href="./src/styles/admin.css">
+</head>
+<body>
+    <div id= "pop-up">
+        <span id="pop-up-text"></span>
+    </div>
+    <section class="ui-section">
+        <h2>Users</h2>
+
+        <form id="add-user-form" onsubmit="addUser(event)">
+            <input type="text" name="login" placeholder="Login" required autocomplete="off">
+            <input type="password" name="password" placeholder="Password" required autocomplete="off">
+
+            <select onchange="selectChange()" name="role">
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+            </select>
+
+            <select  id="address-select" name="address" disabled>
+            </select>
+            <button class="button-regular" type="submit">Add</button>
+        </form>
+        <table >
+            <thead>
+                <tr>
+                  <th scope="col">Login</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Address</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="users-table">
+
+            </tbody>
+        </table>
+    </section>
+    <section class="ui-section">
+        <h2>PickUp Points</h2>
+
+        <form id="add-point-form" onsubmit="addPickUpPoint(event)">
+            <input type="text" name="address" placeholder="Address" required autocomplete="off">
+            <input type="text" name="phone" placeholder="Phone" required autocomplete="off">
+            <button class="button-regular" type="submit">Add</button>
+        </form>
+        <table >
+            <thead>
+                <tr>
+                  <th scope="col">Address</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="points-table">
+
+            </tbody>
+        </table>
+    </section>
+    <section class="ui-section">
+        <h2>Equipments</h2>
+        <form id="add-equip-form" onsubmit="addEquipment(event)">
+            <input type="text" name="name" placeholder="Name" required autocomplete="off">
+            <input type="number" name="price" placeholder="Price" required autocomplete="off">
+            <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+            <img id="preview" width="150">
+            <button class="button-regular" type="submit">Add</button>
+        </form>
+        <ul id="equipment-list">
+            <li>
+                <div class="equpiment-container" id="equpiment-1-container">
+                    <span class="span_major">Equip1</span>
+                    <ol id="equpiment-1-point-list">
+                        <li class="list-row"> 
+                            <select>
+                                <option>first adress 138 London Uk</option>
+                                <option>first adress 138 London Uk</option>
+                                <option>first adress 138 London Uk</option>
+                                <option>first adress 138 London Uk</option>
+                            </select> 
+                            <input type="number" placeholder="Quantity"/>
+                            <input class="button-danger" type="button" value="Delete"></input>
+                        </li>
+                        <li class="list-row">
+                            <select></select> <input type="number" placeholder="Quantity"/>
+                            <input class="button-danger" type="button" value="Delete"></input>
+                        </li>
+                        <li class="list-row">
+                            <select></select> <input type="number" placeholder="Quantity"/>
+                            <input class="button-danger" type="button" value="Delete"></input>
+                        </li>
+                        <li class="list-row">
+                            <form action="">
+                                <select id="equipment-1-new-address"></select> 
+                                <input id="equipment-1-new-quantity" type="number" placeholder="Quantity"/>
+                                <button class="button-regular" type="submit">Add</button>
+                            </form>
+                        </li>
+                        <li class="list-row">
+                            <input class="button-regular" type="button" value="Update"></input>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            
+        </ul>
+    </section>
+</body>
+</html>
+<script src="./src/scripts/general.js" ></script>
+<script src="./src/scripts/admin.js"></script>
