@@ -62,7 +62,7 @@ async function load_equipments() {
         } else{
             const result = await response.json();
             console.log(result);
-            //return result;
+            return result;
         }
     }
     catch(error){
@@ -170,6 +170,150 @@ function render_points(points) {
         container.appendChild(row);
     });
 }
+function render_equipments(equipments, points) {
+    equipments.forEach(equipment => {
+
+        let list = document.getElementById("equipment-list");
+        list.innerHTML ="";
+        let li = document.createElement("li");
+
+        let container = document.createElement("div");
+        container.className = "equpiment-container";
+        container.id = `equpiment-${equipment.id}-container`;
+
+        let title = document.createElement("span");
+        title.className = "span_major";
+        title.textContent = equipment.name;
+
+        container.appendChild(title);
+
+        let ol = document.createElement("ol");
+        ol.id = `equpiment-${equipment.id}-point-list`;
+
+        equipment.pickUpPoints.forEach(p => {
+
+            let row = document.createElement("li");
+            row.className = "list-row";
+
+            let select = document.createElement("select");
+            select.id = `equipment-${equipment.id}-address`;
+            points.forEach(point => {
+                let option = document.createElement("option");
+                option.textContent = point.addres;
+                option.value = point.pickUpPointId;
+                if (point.addres === p.address)
+                    option.selected = true;
+
+                select.appendChild(option);
+            });
+
+            let inputQty = document.createElement("input");
+            inputQty.type = "number";
+            inputQty.placeholder = "Quantity";
+            inputQty.value = p.quantity;
+            inputQty.id = `equipment-${equipment.id}-quantity`;
+
+            let deleteBtn = document.createElement("input");
+            deleteBtn.type = "button";
+            deleteBtn.value = "Delete";
+            deleteBtn.className = "button-danger";
+
+            deleteBtn.onclick = ()=> deleteEquipmentPoint(p.id);
+
+            row.append(select, inputQty, deleteBtn);
+            ol.appendChild(row);
+        });
+
+        let addRow = document.createElement("li");
+        addRow.className = "list-row";
+
+        let form = document.createElement("form");
+
+        form.onsubmit = (e) => {
+            addEquipmentAddress(e,equipment.id);
+            form.reset();
+        };
+
+        let newAddressSelect = document.createElement("select");
+        newAddressSelect.id = `equipment-${equipment.id}-new-address`;
+        newAddressSelect.name = "point";
+
+        points.forEach(point => {
+            let option = document.createElement("option");
+            option.textContent = point.addres;
+            option.value = point.id;
+            newAddressSelect.appendChild(option);
+        });
+
+        let newQtyInput = document.createElement("input");
+        newQtyInput.type = "number";
+        newQtyInput.placeholder = "Quantity";
+        newQtyInput.name = "quantity";
+        newQtyInput.id = `equipment-${equipment.id}-new-quantity`;
+
+        let addBtn = document.createElement("button");
+        addBtn.type = "submit";
+        addBtn.className = "button-regular";
+        addBtn.textContent = "Add";
+
+        form.append(newAddressSelect, newQtyInput, addBtn);
+        addRow.appendChild(form);
+
+        ol.appendChild(addRow);
+
+        let updateRow = document.createElement("li");
+        updateRow.className = "list-row";
+
+        let updateBtn = document.createElement("input");
+        updateBtn.type = "button";
+        updateBtn.value = "Update";
+        updateBtn.className = "button-regular";
+
+        updateBtn.onclick = () => {
+            console.log("TODO: отправка обновлений", equipment.id);
+        };
+
+        updateRow.appendChild(updateBtn);
+        ol.appendChild(updateRow);
+
+        container.appendChild(ol);
+        li.appendChild(container);
+        list.appendChild(li);
+    });
+}
+function addPointRow(address, quantity, ol, points) {
+
+    let row = document.createElement("li");
+    row.className = "list-row";
+
+    let select = document.createElement("select");
+
+    points.forEach(point => {
+        let option = document.createElement("option");
+        option.textContent = point.address;
+
+        if (point.address === address)
+            option.selected = true;
+
+        select.appendChild(option);
+    });
+
+    let inputQty = document.createElement("input");
+    inputQty.type = "number";
+    inputQty.value = quantity;
+
+    let deleteBtn = document.createElement("input");
+    deleteBtn.type = "button";
+    deleteBtn.value = "Delete";
+    deleteBtn.className = "button-danger";
+
+    deleteBtn.onclick = () => row.remove();
+
+    row.append(select, inputQty, deleteBtn);
+
+    // вставляем перед Add / Update строками
+    ol.insertBefore(row, ol.lastElementChild.previousElementSibling);
+}
 async function addUser(e){
     e.preventDefault(); 
 	const formData = new FormData(e.target);
@@ -255,7 +399,7 @@ async function addEquipment(e) {
         } else{
             const result = await response.json();
             console.log(result.id);
-            render_users(await load_users(),points);
+            render_equipments(await load_equipments(),points);
         }
     }
     catch(error){
@@ -308,6 +452,27 @@ async function deleteUser(id) {
         showPopup("ERROR: "+error.message,"neg");
     }
 }
+async function deleteEquipmentPoint(id) {
+    const url = localhost+`equipment/address/${id}`;
+	try{
+        const response = await fetch(url,{
+            method:"DELETE",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+        });
+        if(!response.ok){
+            const text = await response.text();
+            showPopup(text,"neg");
+        } else{
+            render_equipments(await load_equipments(),points);
+        }
+    }
+    catch(error){
+        showPopup("ERROR: "+error.message,"neg");
+    }
+}
 async function updateUser(id) {
     let newPointId = document.getElementById(`user-address-${id}`).value;
     let url = localhost+`user/${id}/${newPointId}`;
@@ -342,7 +507,7 @@ async function updatePoint(id) {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             },
             body:JSON.stringify({
-	        	"Address":newPointAddress,
+	        	"Address":newPointAddress, //TODO make by id
 	        	"Phone":newPointPhone,
 	        })
         });
@@ -354,6 +519,37 @@ async function updatePoint(id) {
             render_points(points);
             render_address_select(points);
             
+        }
+    }
+    catch(error){
+        showPopup("ERROR: "+error.message,"neg");
+    }
+}
+async function addEquipmentAddress(e,id) {
+    const url = localhost+"equipment/address";
+    e.preventDefault(); 
+	const formData = new FormData(e.target);
+	try{
+        const response = await fetch(url,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            body:JSON.stringify({
+        		"EquipmentId":id,
+        		"PickUpPointId":formData.get("point"),
+        		"Quantity":formData.get("quantity"),
+	        }),
+        });
+        if(!response.ok){
+            const text = await response.text();
+            showPopup(text,"neg");
+            return null;
+        } else{
+            const result = await response.json();
+            console.log(result);
+            render_equipments(await load_equipments(),points);
         }
     }
     catch(error){
@@ -409,5 +605,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     render_users(await load_users(),points);
     render_points(points);
     render_address_select(points);
-    await load_equipments();
+    render_equipments(await load_equipments(),points);
 });
