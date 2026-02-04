@@ -137,3 +137,24 @@ li {
     font-size: 20px;
     align-self: center;
 }
+.title-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+/* Заголовок */
+.title-row .span_major{
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Input возле заголовка */
+.title-row input{
+    width: 100px;
+}

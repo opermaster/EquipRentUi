@@ -171,21 +171,33 @@ function render_points(points) {
     });
 }
 function render_equipments(equipments, points) {
+    let list = document.getElementById("equipment-list");
+    list.innerHTML ="";
     equipments.forEach(equipment => {
 
-        let list = document.getElementById("equipment-list");
-        list.innerHTML ="";
         let li = document.createElement("li");
 
         let container = document.createElement("div");
         container.className = "equpiment-container";
         container.id = `equpiment-${equipment.id}-container`;
 
+        let title_div = document.createElement("div");
+        title_div.className ="title-row";
+
         let title = document.createElement("span");
         title.className = "span_major";
+
         title.textContent = equipment.name;
 
-        container.appendChild(title);
+        let price = document.createElement("input");
+        price.type="number";
+        price.placeholder="Price";
+        price.id =`equipment-${equipment.id}-price`;
+        price.value=equipment.price;
+
+        title_div.append(title,price);
+
+        container.appendChild(title_div);
 
         let ol = document.createElement("ol");
         ol.id = `equpiment-${equipment.id}-point-list`;
@@ -196,11 +208,11 @@ function render_equipments(equipments, points) {
             row.className = "list-row";
 
             let select = document.createElement("select");
-            select.id = `equipment-${equipment.id}-address`;
+            select.id = `equipment-${equipment.id}-address-${p.id}`;
             points.forEach(point => {
                 let option = document.createElement("option");
                 option.textContent = point.addres;
-                option.value = point.pickUpPointId;
+                option.value = point.id;
                 if (point.addres === p.address)
                     option.selected = true;
 
@@ -211,7 +223,7 @@ function render_equipments(equipments, points) {
             inputQty.type = "number";
             inputQty.placeholder = "Quantity";
             inputQty.value = p.quantity;
-            inputQty.id = `equipment-${equipment.id}-quantity`;
+            inputQty.id = `equipment-${equipment.id}-quantity-${p.id}`;
 
             let deleteBtn = document.createElement("input");
             deleteBtn.type = "button";
@@ -269,9 +281,7 @@ function render_equipments(equipments, points) {
         updateBtn.value = "Update";
         updateBtn.className = "button-regular";
 
-        updateBtn.onclick = () => {
-            console.log("TODO: отправка обновлений", equipment.id);
-        };
+        updateBtn.onclick = () => updateEquipmentPoints(equipment.id,equipment.pickUpPoints.map(item=>item.id));
 
         updateRow.appendChild(updateBtn);
         ol.appendChild(updateRow);
@@ -406,6 +416,37 @@ async function addEquipment(e) {
         showPopup("ERROR: "+error.message,"neg");
     }
 }
+async function addEquipmentAddress(e,id) {
+    const url = localhost+"equipment/address";
+    e.preventDefault(); 
+	const formData = new FormData(e.target);
+	try{
+        const response = await fetch(url,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            body:JSON.stringify({
+        		"EquipmentId":id,
+        		"PickUpPointId":formData.get("point"),
+        		"Quantity":formData.get("quantity"),
+	        }),
+        });
+        if(!response.ok){
+            const text = await response.text();
+            showPopup(text,"neg");
+            return null;
+        } else{
+            const result = await response.json();
+            console.log(result);
+            render_equipments(await load_equipments(),points);
+        }
+    }
+    catch(error){
+        showPopup("ERROR: "+error.message,"neg");
+    }
+}
 async function deletePoint(id) {
     const url = localhost+`point/${id}`;
 
@@ -489,6 +530,7 @@ async function updateUser(id) {
             showPopup(text,"neg");
         } else{
             render_users(await load_users(),points);
+            showPopup("Updated","pos");
         }
     }
     catch(error){
@@ -518,38 +560,76 @@ async function updatePoint(id) {
             points = await load_points();
             render_points(points);
             render_address_select(points);
-            
+            showPopup("Updated","pos");
         }
     }
     catch(error){
         showPopup("ERROR: "+error.message,"neg");
     }
 }
-async function addEquipmentAddress(e,id) {
-    const url = localhost+"equipment/address";
-    e.preventDefault(); 
-	const formData = new FormData(e.target);
-	try{
+async function updateEquipmentPoints(equipmentId, ids) {
+    
+
+    const result = {
+        id: equipmentId,
+        points: []
+    };
+
+    ids.forEach(recordId => {
+
+        const addressSelect = document.getElementById(
+            `equipment-${equipmentId}-address-${recordId}`
+        );
+
+        const quantityInput = document.getElementById(
+            `equipment-${equipmentId}-quantity-${recordId}`
+        );
+
+        if (!addressSelect || !quantityInput) return;
+
+        result.points.push({
+            id: recordId,
+            pickUpPointId: addressSelect.value || addressSelect.options[addressSelect.selectedIndex].text,
+            quantity: Number(quantityInput.value)
+        });
+    });
+
+    let url = localhost+`equipment/update_point_equipments`;
+    try{
         const response = await fetch(url,{
-            method:"POST",
+            method:"PUT",
             headers:{
                 "Content-Type":"application/json",
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             },
-            body:JSON.stringify({
-        		"EquipmentId":id,
-        		"PickUpPointId":formData.get("point"),
-        		"Quantity":formData.get("quantity"),
-	        }),
+            body:JSON.stringify(result)
         });
         if(!response.ok){
             const text = await response.text();
             showPopup(text,"neg");
-            return null;
         } else{
-            const result = await response.json();
-            console.log(result);
-            render_equipments(await load_equipments(),points);
+            showPopup("Updated","pos");
+        }
+    }
+    catch(error){
+        showPopup("ERROR: "+error.message,"neg");
+    }
+
+    let price = document.getElementById(`equipment-${equipmentId}-price`).value;
+    url = localhost+`equipment/update_price/${equipmentId}/${price}`;
+    try{
+        const response = await fetch(url,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+        });
+        if(!response.ok){
+            const text = await response.text();
+            showPopup(text,"neg");
+        } else{
+            showPopup("Updated","pos");
         }
     }
     catch(error){
