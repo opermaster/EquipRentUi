@@ -1,0 +1,118 @@
+.inner-list-visible{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-height: 500px;
+    opacity: 1;
+
+    padding: 0 20px 18px 20px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+.inner-list-invisible{
+    max-height: 0;
+    opacity: 0;
+    padding: 0 20px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+#equipment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+
+#equipment-list > li {
+    background: var(--color-surface, #ffffff);
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    padding: 0;
+    overflow: hidden;
+}
+
+#equipment-list > li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+
+
+[id^="equipment-"] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 20px;
+    cursor: pointer;
+    gap: 16px;
+}
+
+
+[id^="equipment-"] > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+[id^="equipment-"] img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f3f4f6;
+}
+.inner-list-visible li {
+    background: var(--color-background-soft, #f9fafb);
+    border-radius: 10px;
+    padding: 14px 16px;
+    width: 100%;
+}
+
+.inner-list-visible li > div {
+    display: grid;
+    grid-template-columns: 1fr 120px 110px;
+    align-items: center;
+    gap: 16px;
+}
+
+.inner-list-visible .span_major {
+    justify-self: start;
+}
+
+.inner-list-visible input {
+    min-width: 90px;
+    justify-self: end;
+}
+.inner-list-visible li:hover {
+    background: rgba(0, 0, 0, 0.118);
+}
+
+.active{
+    display: flex;
+}
+.unactive{
+    display: none;
+}
+
+@media (max-width: 600px) {
+
+    .inner-list-visible li > div {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .inner-list-visible input {
+        justify-self: start;
+    }
+
+    .available,
+    .unavailable {
+        justify-self: start;
+    }
+}

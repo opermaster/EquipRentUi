@@ -1,12 +1,4 @@
-.span_major{
-    font-weight: 600;
-    font-size: 20px;
-    color: var(--color-text);
-}
-.span_minor{
-    font-size: 15px;
-    color: var(--color-muted);
-}
+
 .ui-section {
     width: 100%;
     max-width: 720px;
@@ -18,20 +10,6 @@
 .ui-section form {
     max-width: 100%;
 }
-
-
-.ui-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 12px;
-    align-items: center;
-
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--color-border);
-    background: #fafafa;
-}
-
 
 .ui-section h2 {
     padding-bottom: 8px;
@@ -95,31 +73,6 @@ tbody td:nth-last-child(-n+2) {
 }
 
 
-ul {
-  list-style: none; 
-  gap: 20px;
-  padding: 0;
-  margin: 0; 
-}
-li {
-  padding: 1rem; 
-}
-
-.list-row{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    width: 100%;
-}
-.list-row select{
-    flex:1;
-    width: auto;
-}
-.list-row input{
-    flex:1;
-    width: auto;
-    max-width: 80px;
-}
 
 .equpiment-container{
     min-width: 320px;
@@ -147,14 +100,12 @@ li {
     margin-bottom: 12px;
 }
 
-/* Заголовок */
 .title-row .span_major{
     font-size: 20px;
     font-weight: 600;
     white-space: nowrap;
 }
 
-/* Input возле заголовка */
 .title-row input{
     width: 100px;
 }

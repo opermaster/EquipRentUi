@@ -46,7 +46,7 @@ async function load_points() {
     }
 }
 async function load_equipments() {
-    const url = localhost+"equipment";
+    const url = localhost+"equipment/all";
 	try{
         const response = await fetch(url,{
             method:"GET",
@@ -123,7 +123,6 @@ function render_users(users,points){
     });
 }
 function render_points(points) {
-    if (!Array.isArray(points)) return;
 
     const container = document.getElementById("points-table");
     container.innerHTML = "";
@@ -290,39 +289,6 @@ function render_equipments(equipments, points) {
         li.appendChild(container);
         list.appendChild(li);
     });
-}
-function addPointRow(address, quantity, ol, points) {
-
-    let row = document.createElement("li");
-    row.className = "list-row";
-
-    let select = document.createElement("select");
-
-    points.forEach(point => {
-        let option = document.createElement("option");
-        option.textContent = point.address;
-
-        if (point.address === address)
-            option.selected = true;
-
-        select.appendChild(option);
-    });
-
-    let inputQty = document.createElement("input");
-    inputQty.type = "number";
-    inputQty.value = quantity;
-
-    let deleteBtn = document.createElement("input");
-    deleteBtn.type = "button";
-    deleteBtn.value = "Delete";
-    deleteBtn.className = "button-danger";
-
-    deleteBtn.onclick = () => row.remove();
-
-    row.append(select, inputQty, deleteBtn);
-
-    // вставляем перед Add / Update строками
-    ol.insertBefore(row, ol.lastElementChild.previousElementSibling);
 }
 async function addUser(e){
     e.preventDefault(); 
@@ -549,7 +515,7 @@ async function updatePoint(id) {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             },
             body:JSON.stringify({
-	        	"Address":newPointAddress, //TODO make by id
+	        	"Address":newPointAddress,
 	        	"Phone":newPointPhone,
 	        })
         });
@@ -568,8 +534,6 @@ async function updatePoint(id) {
     }
 }
 async function updateEquipmentPoints(equipmentId, ids) {
-    
-
     const result = {
         id: equipmentId,
         points: []
@@ -636,6 +600,7 @@ async function updateEquipmentPoints(equipmentId, ids) {
         showPopup("ERROR: "+error.message,"neg");
     }
 }
+// Support functions
 function render_address_select(points) {
     if (!Array.isArray(points)) return;
 

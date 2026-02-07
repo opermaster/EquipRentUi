@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquipRent - Catalog</title>
+    <link rel="stylesheet" href="./src/styles/general.css">
+    <link rel="stylesheet" href="./src/styles/catalog.css">
+</head>
+<body>
+    <div id= "pop-up">
+        <span id="pop-up-text"></span>
+    </div>
+    <form id="rent-form" class="unactive" onsubmit="createOrder(event)">
+        <input type="text" name="firstName" placeholder="First Name" required/>
+        <input type="text" name="secondName" placeholder="Second Name" required/>
+        <input type="text" name="email" placeholder="Email" required/>
+        <button class="button-regular" type="submit">Rent</button>
+        <button class="button-danger" onclick="closeForm(event)">Close</button>
+    </form>
+    <form onsubmit="load_equipments(event)">
+        <lable for="startDate">Start Date:</lable>
+        <input id="startDate_input" name="startDate" type="date"/>
+        <lable for="endDate">End Date:</lable>
+        <input id="endDate_input" name="endDate" type="date"/>
+        <button class="button-regular" type="submit">Find</button>
+    </form>
+    <ul id="equipment-list"></ul>
+</body>
+</html>
+<script src="./src/scripts/general.js"></script>
+<script src="./src/scripts/catalog.js"></script>
