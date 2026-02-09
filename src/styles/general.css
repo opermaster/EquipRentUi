@@ -97,8 +97,12 @@ form {
 .button-regular:active{
     transform: translateY(1px);
 }
-.button-regular:disabled{
-    
+.button-regular:disabled {
+    background-color: var(--color-border);
+    color: var(--color-muted);
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
 }
 .button-danger{
     padding: 8px 14px;
@@ -121,16 +125,19 @@ form {
 .button-danger:active{
     transform: translateY(1px);
 }
-.button-danger:disabled{
-    
+.button-danger:disabled {
+    background-color: var(--color-border);
+    color: var(--color-muted);
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
 }
-/* Select status TODO  */ 
+/* Select status */ 
 select {
-    width: 100%;
     padding: 12px 14px;
 
     border-radius: 8px;
-    border: 1px solid #dcdfe3;
+    border: 2px solid #dcdfe3;
     background: white;
     font-size: 16px;
     cursor: pointer;
@@ -147,17 +154,25 @@ select:focus {
     outline: none;
 }
 
-.select-status[data-status="Created"] .order-status {
+.select-status[data-status="Pending"] .order-status {
     border-color: #3b82f6;
 }
-.select-status[data-status="InProgress"] .order-status {
+
+.select-status[data-status="Confirmed"] .order-status {
+    border-color: #10b981;
+}
+
+.select-status[data-status="Rejected"] .order-status {
+    border-color: var(--color-danger);
+}
+
+.select-status[data-status="InUse"] .order-status {
     border-color: #f59e0b;
 }
-.select-status[data-status="Completed"] .order-status {
-    opacity: 0.85;
-}
-.select-status[data-status="Completed"] .order-status {
-    border-color: #10b981;
+
+.select-status[data-status="Done"] .order-status {
+    border-color: #6b7280;
+    opacity: 0.8;
 }
 
 ul {
@@ -207,4 +222,47 @@ li {
     color: #10b981;
     min-width: 100px;
     justify-self: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+thead th {
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 15px;
+    color: var(--color-muted);
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td,
+tbody th {
+    padding: 14px 16px;
+    font-size: 15px;
+    text-align: center;
+}
+
+tbody th {
+    font-weight: 500;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+tbody td:nth-last-child(-n+2) {
+    text-align: right;
 }

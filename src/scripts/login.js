@@ -34,6 +34,6 @@ async function login(e){
         window.location.href = "./admin.html";
     }
     else if (role=="Manager") {
-        window.location.href = "./index.html";
+        window.location.href = "./manager.html";
     }
 }
