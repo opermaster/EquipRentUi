@@ -29,7 +29,7 @@ async function load_equipments(e) {
 async function createOrder(e) {
     e.preventDefault(); 
 	const formData = new FormData(e.target);
-    const url = localhost+"order";
+    const url = localhost+"order/create";
     try{
         const response = await fetch(url,{
             method:"POST",

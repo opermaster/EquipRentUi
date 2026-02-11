@@ -23,7 +23,7 @@ async function load_users() {
     }
 }
 async function load_points() {
-    const url = localhost+"point";
+    const url = localhost+"point/points";
 	try{
         const response = await fetch(url,{
             method:"GET",
@@ -70,7 +70,7 @@ async function load_equipments() {
     }
 }
 async function load_orders() {
-    const url = localhost+"order";
+    const url = localhost+"order/inner";
 	try{
         const response = await fetch(url,{
             method:"GET",
@@ -436,7 +436,7 @@ async function addEquipment(e) {
     e.preventDefault(); 
 	const formData = new FormData(e.target);
 
-    const url = localhost+"equipment";
+    const url = localhost+"equipment/new";
 	try{
         const response = await fetch(url,{
             method:"POST",
@@ -514,7 +514,7 @@ async function deletePoint(id) {
     }
 }
 async function deleteUser(id) {
-    const url = localhost+`user/${id}`;
+    const url = localhost+`user/by-id/${id}`;
 
 	try{
         const response = await fetch(url,{
