@@ -48,11 +48,11 @@ async function createOrder(e) {
             })
         });
         if(!response.ok){
-            const text = await response.text();
-            showPopup(text,"neg");
+            showPopup("Order wasn`t approved","neg",timeout=10000);
         } else{
             const result = await response.json();
             console.log(result); //log succes
+            showPopup(`Order successfully approved. Order id:${result.id}`,"pos",timeout = 10000);
         }
     }
     catch(error){

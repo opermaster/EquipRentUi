@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquipRent - Personal</title>
+    <link rel="stylesheet" href="./src/styles/general.css">
+    <link rel="stylesheet" href="./src/styles/Personal.css">
+</head>
+<body>
+    <div id= "pop-up">
+        <span id="pop-up-text"></span>
+    </div>
+    <form id="orders-form" onsubmit="getOrders(event)">
+        <input type="text" name="firstName" placeholder="First Name" required/>
+        <input type="text" name="secondName" placeholder="Second Name" required/>
+        <input type="text" name="email" placeholder="Email" required/>
+        <button class="button-regular" type="submit">Get Orders</button>
+    </form>
+    <table >
+            <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Equipment Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Address</th>
+                  <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="orders-table">
+            </tbody>
+        </table>
+</body>
+</html>
+<script src="./src/scripts/general.js"></script>
+<script src="./src/scripts/personal.js"></script>
